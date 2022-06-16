@@ -22,9 +22,22 @@ class App extends Component {
 			);
 	}
 
+	onSearchChange = event => {
+		const searchTerm = event.target.value.toLowerCase();
+
+		this.setState(() => {
+			return { searchTerm };
+		});
+	};
+
 	render() {
-		const filteredMonsters = this.state.monsters.filter(monster =>
-			monster.name.toLowerCase().includes(this.state.searchTerm),
+		console.log('render');
+
+		const { monsters, searchTerm } = this.state;
+		const { onSearchChange } = this;
+
+		const filteredMonsters = monsters.filter(monster =>
+			monster.name.toLowerCase().includes(searchTerm),
 		);
 
 		return (
@@ -33,13 +46,7 @@ class App extends Component {
 					className="search-box"
 					type="search"
 					placeholder="search monster"
-					onChange={event => {
-						const searchTerm = event.target.value.toLowerCase();
-
-						this.setState(() => {
-							return { searchTerm };
-						});
-					}}
+					onChange={onSearchChange}
 				/>
 				{filteredMonsters.map(monster => (
 					<div key={monster.id}>
